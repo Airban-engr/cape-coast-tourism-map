@@ -7,7 +7,19 @@
         "name": "Cape Coast Castle",
         "type": "Historical",
         "city": "Cape Coast",
-        "description": "UNESCO World Heritage Site; key landmark in the trans-Atlantic slave trade."
+        "description": "UNESCO World Heritage site telling the powerful story of the trans-Atlantic slave trade.",
+        "highlights": [
+          "Guided tours through dungeons & museum",
+          "Oceanfront views for photography",
+          "Central location, easy access"
+        ],
+        "best_time": "Morning tours (8:30–11:00) for cooler temps",
+        "ticket": "Entry fee; guided tours available",
+        "local_tip": "Ask about combined tickets with Elmina Castle.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Cape_Coast_Castle_Courtyard.jpg",
+        "website": "https://www.ghanamuseums.org/museums/cape-coast-castle.php",
+        "cta_text": "Plan a heritage route for your visitors",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
@@ -20,10 +32,22 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Elmina Castle (St. George's Castle)",
+        "name": "Elmina Castle (St. George's)",
         "type": "Historical",
         "city": "Elmina",
-        "description": "One of the oldest European buildings in sub‑Saharan Africa; UNESCO World Heritage Site."
+        "description": "Oldest European building in sub-Saharan Africa — another essential stop on the heritage circuit.",
+        "highlights": [
+          "Panoramic rooftop views",
+          "Historic chapel & museum exhibits",
+          "Vibrant fishing town atmosphere"
+        ],
+        "best_time": "Late afternoon for golden light & harbour activity",
+        "ticket": "Entry fee; guided tours recommended",
+        "local_tip": "Walk up to Fort San Jago afterward for a bird's-eye view.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Elmina_Castle_courtyard.jpg",
+        "website": "https://whc.unesco.org/en/list/34/",
+        "cta_text": "Request a custom Elmina–Kakum mini-itinerary",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
@@ -36,26 +60,22 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Fort San Jago (Fort Coenraadsburg)",
-        "type": "Historical",
-        "city": "Elmina",
-        "description": "Hilltop fort overlooking Elmina Castle and the town."
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -1.348,
-          5.09
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "name": "Kakum National Park – Canopy Walkway",
         "type": "Nature",
         "city": "Kakum",
-        "description": "Famous rainforest canopy walkway with rich biodiversity."
+        "description": "Iconic rainforest canopy walkway suspended above rich biodiversity.",
+        "highlights": [
+          "Seven suspension bridges over the forest",
+          "Birding & nature trails",
+          "Family-friendly adventure"
+        ],
+        "best_time": "Early morning (7:00–9:00) for wildlife & cooler air",
+        "ticket": "Entry fee; guided nature tours available",
+        "local_tip": "Wear trainers; bring water & insect repellent.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/5/57/Kakum_Canopy_Walkway.jpg",
+        "website": "https://www.ghanawildlifesociety.org/",
+        "cta_text": "Map a full-day eco tour for your audience",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
@@ -71,7 +91,19 @@
         "name": "Hans Cottage Botel (Crocodile Pond)",
         "type": "Nature",
         "city": "Abrafo",
-        "description": "Eco‑lodge known for a crocodile pond and birdlife."
+        "description": "Unique eco-lodge experience with a crocodile pond and abundant birdlife.",
+        "highlights": [
+          "Guided pond viewing",
+          "Restaurant on stilts",
+          "Close to Kakum entry"
+        ],
+        "best_time": "Late morning after Kakum visit",
+        "ticket": "Viewing/interaction fees may apply",
+        "local_tip": "Great lunch stop between sites.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Hans_Cottage_Botel.jpg",
+        "website": "",
+        "cta_text": "Bundle into a Kakum half-day tour",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
@@ -84,16 +116,28 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Cape Coast Beaches (Victoria Park area)",
-        "type": "Beach",
-        "city": "Cape Coast",
-        "description": "Palm‑lined urban beaches popular with visitors and locals."
+        "name": "Fort San Jago (Coenraadsburg)",
+        "type": "Historical",
+        "city": "Elmina",
+        "description": "Hilltop fort overlooking Elmina Castle and the colourful harbour.",
+        "highlights": [
+          "Best panoramic photos of Elmina",
+          "Short uphill walk or taxi",
+          "Pairs well with Elmina Castle tour"
+        ],
+        "best_time": "Sunset for skyline & harbour glow",
+        "ticket": "Small entry fee",
+        "local_tip": "Bring water — the hill can be warm.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/5/56/St._Jago_Coenraadsburg_fort%2C_Elmina.jpg",
+        "website": "",
+        "cta_text": "Add a hilltop photo stop to your itinerary",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -1.252,
-          5.1055
+          -1.348,
+          5.09
         ]
       }
     },
@@ -103,7 +147,19 @@
         "name": "Elmina Lagoon & Fishing Harbour",
         "type": "Cultural",
         "city": "Elmina",
-        "description": "Traditional fishing harbour and colourful canoes by the lagoon."
+        "description": "Traditional fishing harbour with colourful canoes and lively markets.",
+        "highlights": [
+          "Photogenic canoes & nets",
+          "Local seafood & street food",
+          "Cultural immersion"
+        ],
+        "best_time": "Morning or late afternoon when boats return",
+        "ticket": "Free to explore; respect local spaces",
+        "local_tip": "Ask before photographing people.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Elmina_Fishing_Boats.jpg",
+        "website": "",
+        "cta_text": "Design a culture-first visitor trail",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
@@ -116,16 +172,28 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "University of Cape Coast – Centre for African & International Studies",
-        "type": "Cultural",
+        "name": "Cape Coast Beaches (Victoria Park area)",
+        "type": "Beach",
         "city": "Cape Coast",
-        "description": "Academic hub; occasional exhibitions and cultural events."
+        "description": "Palm-lined urban beaches with lively weekends and sea views.",
+        "highlights": [
+          "Sunrise walks & photo spots",
+          "Local food joints",
+          "Close to central Cape Coast"
+        ],
+        "best_time": "Early morning or late afternoon",
+        "ticket": "Free",
+        "local_tip": "Mind currents; ask locals for safe swim spots.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/8/83/Cape_Coast_Beachfront.jpg",
+        "website": "",
+        "cta_text": "Create a beach-day guide map",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -1.297,
-          5.12
+          -1.252,
+          5.1055
         ]
       }
     },
@@ -135,7 +203,19 @@
         "name": "Brenu Beach",
         "type": "Beach",
         "city": "Brenu Akyinmu",
-        "description": "Quiet sandy beach west of Elmina; popular day‑trip spot."
+        "description": "Quiet sandy beach west of Elmina — a relaxing day-trip option.",
+        "highlights": [
+          "Calmer setting than town beaches",
+          "Local resorts & eateries",
+          "Good for small groups"
+        ],
+        "best_time": "Weekdays for fewer crowds",
+        "ticket": "Free; resort fees may apply for facilities",
+        "local_tip": "Arrange transport back before sunset.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Brenu_Beach_Ghana.jpg",
+        "website": "",
+        "cta_text": "Add Brenu as a quiet finale",
+        "cta_link": "mailto:airbaengineers@gmail.com"
       },
       "geometry": {
         "type": "Point",

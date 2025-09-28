@@ -28,42 +28,92 @@
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-  // Center around Cape Coast / Elmina
+  // Center on Cape Coast / Elmina
   const map = L.map('map').setView([5.12, -1.30], 11);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
   }).addTo(map);
 
+  // Color by type (brand palette)
   const typeColor = t => ({
-    'Historical': '#1f78b4',
-    'Cultural':   '#6a3d9a',
-    'Nature':     '#33a02c',
-    'Beach':      '#ff7f00'
+    'Historical': '#1f78b4', // blue
+    'Cultural':   '#6a3d9a', // purple
+    'Nature':     '#33a02c', // green
+    'Beach':      '#ff7f00'  // orange
   }[t] || '#555');
 
-  // Simple circle marker style
+  // Marker style
   const markerStyle = f => ({
-    radius: 7,
+    radius: 8,
     color: '#222',
     weight: 1,
     fillColor: typeColor(f.properties?.type),
-    fillOpacity: 0.9
+    fillOpacity: 0.95
   });
 
+  // Build a persuasive popup
+  function popupHTML(p = {}) {
+    const img = p.image ? `<div style="margin:-10px -10px 10px -10px;overflow:hidden;border-radius:8px 8px 0 0">
+      <img src="${p.image}" alt="${p.name || 'Site photo'}" style="width:100%;height:160px;object-fit:cover;display:block"/>
+    </div>` : '';
+
+    const highlights = Array.isArray(p.highlights) && p.highlights.length
+      ? `<ul style="padding-left:18px;margin:6px 0 0 0">${p.highlights.slice(0,3).map(h=>`<li>${h}</li>`).join('')}</ul>`
+      : '';
+
+    const info = [
+      p.type ? `<div><b>Type:</b> ${p.type}</div>` : '',
+      p.city ? `<div><b>City:</b> ${p.city}</div>` : '',
+      p.best_time ? `<div><b>Best time:</b> ${p.best_time}</div>` : '',
+      p.ticket ? `<div><b>Ticket:</b> ${p.ticket}</div>` : '',
+      p.local_tip ? `<div><b>Local tip:</b> ${p.local_tip}</div>` : ''
+    ].filter(Boolean).join('');
+
+    const site = p.website ? `<a href="${p.website}" target="_blank" rel="noopener" style="text-decoration:underline">Official info</a>` : '';
+
+    const CTA = (p.cta_link && p.cta_text)
+      ? `<a href="${p.cta_link}" target="_blank" rel="noopener"
+            style="display:inline-block;margin-top:10px;padding:8px 10px;border-radius:6px;background:#0f766e;color:#fff;text-decoration:none;font-weight:600">
+            ${p.cta_text}</a>`
+      : '';
+
+    return `
+      <div style="width:280px; font: 13px system-ui; line-height:1.35">
+        ${img}
+        <div style="margin:0 -10px 8px -10px;padding:0 10px">
+          <div style="font-weight:700;font-size:15px;margin-top:2px;">${p.name || 'Point of Interest'}</div>
+          ${p.description ? `<div style="margin-top:4px;color:#333">${p.description}</div>` : ''}
+          ${highlights}
+          <div style="margin-top:8px;color:#222">${info}</div>
+          <div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            ${site}
+            ${CTA}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // Fixed CTA control on the map (top-right)
+  const ctaControl = L.control({position:'topright'});
+  ctaControl.onAdd = function () {
+    const div = L.DomUtil.create('div');
+    div.style.cssText = 'background:#0f766e;color:#fff;padding:10px 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2);font:13px system-ui';
+    div.innerHTML = `
+      <div style="font-weight:700;margin-bottom:4px;">Need a custom tourism map?</div>
+      <a href="mailto:airbaengineers@gmail.com" target="_blank" rel="noopener"
+         style="display:inline-block;background:#14b8a6;color:#073b3a;font-weight:700;padding:6px 10px;border-radius:6px;text-decoration:none">
+         Let’s talk</a>`;
+    return div;
+  };
+  ctaControl.addTo(map);
+
+  // Load data (rename the downloaded file to tourism_hotspots.geojson)
   fetch('data/tourism_hotspots.geojson')
     .then(r => r.json())
     .then(geo => {
       const layer = L.geoJSON(geo, {
         pointToLayer: (f, latlng) => L.circleMarker(latlng, markerStyle(f)),
-        onEachFeature: (f, l) => {
-          const p = f.properties || {};
-          l.bindPopup(
-            `<b>${p.name || 'Site'}</b><br>` +
-            (p.type ? `Type: ${p.type}<br>` : '') +
-            (p.city ? `City: ${p.city}<br>` : '') +
-            (p.description ? `<div style="max-width:220px;margin-top:6px">${p.description}</div>` : '')
-          );
-        }
+        onEachFeature: (f, l) => l.bindPopup(popupHTML(f.properties || {}))
       }).addTo(map);
 
       try { map.fitBounds(layer.getBounds(), { padding: [20,20] }); } catch (e) {}
