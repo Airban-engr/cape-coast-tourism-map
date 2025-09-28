@@ -1,0 +1,149 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cape Coast Castle",
+        "type": "Historical",
+        "city": "Cape Coast",
+        "description": "UNESCO World Heritage Site; key landmark in the trans-Atlantic slave trade."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2466,
+          5.1036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Elmina Castle (St. George's Castle)",
+        "type": "Historical",
+        "city": "Elmina",
+        "description": "One of the oldest European buildings in sub‑Saharan Africa; UNESCO World Heritage Site."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.35,
+          5.084
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fort San Jago (Fort Coenraadsburg)",
+        "type": "Historical",
+        "city": "Elmina",
+        "description": "Hilltop fort overlooking Elmina Castle and the town."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.348,
+          5.09
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kakum National Park – Canopy Walkway",
+        "type": "Nature",
+        "city": "Kakum",
+        "description": "Famous rainforest canopy walkway with rich biodiversity."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2746,
+          5.3811
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hans Cottage Botel (Crocodile Pond)",
+        "type": "Nature",
+        "city": "Abrafo",
+        "description": "Eco‑lodge known for a crocodile pond and birdlife."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.2785,
+          5.247
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cape Coast Beaches (Victoria Park area)",
+        "type": "Beach",
+        "city": "Cape Coast",
+        "description": "Palm‑lined urban beaches popular with visitors and locals."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.252,
+          5.1055
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Elmina Lagoon & Fishing Harbour",
+        "type": "Cultural",
+        "city": "Elmina",
+        "description": "Traditional fishing harbour and colourful canoes by the lagoon."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.3465,
+          5.0865
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "University of Cape Coast – Centre for African & International Studies",
+        "type": "Cultural",
+        "city": "Cape Coast",
+        "description": "Academic hub; occasional exhibitions and cultural events."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.297,
+          5.12
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Brenu Beach",
+        "type": "Beach",
+        "city": "Brenu Akyinmu",
+        "description": "Quiet sandy beach west of Elmina; popular day‑trip spot."
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1.46,
+          5.067
+        ]
+      }
+    }
+  ]
+}
