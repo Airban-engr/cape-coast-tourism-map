@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <title>Map Demo – Template</title>
+  <meta name="description" content="Interactive map demo built with Leaflet and GeoJSON."/>
+
+  <!-- Open Graph for social previews -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="Map Demo – Template"/>
+  <meta property="og:description" content="Interactive demo map"/>
+  <meta property="og:url" content="__PAGES_URL__"/>
+  <meta property="og:image" content="__PAGES_URL__/preview.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Init map
+    const map = L.map('map').setView([7.9, -1.0], 7);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    // Load demo GeoJSON
+    fetch('data/demo_data.geojson')
+      .then(r => r.json())
+      .then(data => {
+        L.geoJSON(data, {
+          onEachFeature: (f, l) => l.bindPopup("Feature: " + JSON.stringify(f.properties))
+        }).addTo(map);
+      });
+  </script>
+</body>
+</html>
