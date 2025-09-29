@@ -1,203 +1,210 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Cape Coast Tourism Hotspots – Interactive Map">
-<meta property="og:description" content="Cape Coast & Elmina castles, Kakum canopy walkway, beaches and cultural sites — mapped for easy exploration.">
-<meta property="og:url" content="https://airban-engr.github.io/cape-coast-tourism-map/">
-<meta property="og:image" content="https://airban-engr.github.io/cape-coast-tourism-map/preview.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+<head>
+  <meta charset="utf-8" />
+  <title>Cape Coast Tourism Hotspots – Interactive Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Cape Coast Tourism Hotspots – Interactive Map">
-<meta name="twitter:description" content="Discover castles, canopy walkway, beaches & culture across Cape Coast and Elmina.">
-<meta name="twitter:image" content="https://airban-engr.github.io/cape-coast-tourism-map/preview.jpg">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cape Coast Tourism Hotspots – Interactive Map">
+  <meta property="og:description" content="Historic castles, Kakum canopy walkway, beaches & culture — explored through a fast, interactive map.">
+  <meta property="og:url" content="https://airban-engr.github.io/cape-coast-tourism-map/">
+  <meta property="og:image" content="https://airban-engr.github.io/cape-coast-tourism-map/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cape Coast & Elmina tourism hotspots map preview">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cape Coast Tourism Hotspots – Interactive Map">
+  <meta name="twitter:description" content="Discover castles, canopy walkway, beaches & culture around Cape Coast and Elmina.">
+  <meta name="twitter:image" content="https://airban-engr.github.io/cape-coast-tourism-map/preview.jpg">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map { height: 100%; }
+  </style>
+</head>
 <body>
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
+  <!-- Leaflet JS (must be after #map) -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
- <script>
-  // Center on Cape Coast / Elmina
-  const map = L.map('map').setView([5.12, -1.30], 11);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
 
-  // Color by type (brand palette)
-  const ALL_TYPES = ['Historical','Cultural','Nature','Beach'];
-  const typeColor = t => ({
-    'Historical': '#1f78b4', // blue
-    'Cultural':   '#6a3d9a', // purple
-    'Nature':     '#33a02c', // green
-    'Beach':      '#ff7f00'  // orange
-  }[t] || '#555');
+  <!-- Map logic (filters + persuasive popups + CTA) -->
+  <script>
+    // Center on Cape Coast / Elmina
+    const map = L.map('map').setView([5.12, -1.30], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
 
-  // Marker style
-  const markerStyle = f => ({
-    radius: 8,
-    color: '#222',
-    weight: 1,
-    fillColor: typeColor(f.properties?.type),
-    fillOpacity: 0.95
-  });
+    // Types & colors
+    const ALL_TYPES = ['Historical','Cultural','Nature','Beach'];
+    const typeColor = t => ({
+      'Historical': '#1f78b4',
+      'Cultural':   '#6a3d9a',
+      'Nature':     '#33a02c',
+      'Beach':      '#ff7f00'
+    }[t] || '#555');
 
-  // Persuasive popup
-  function popupHTML(p = {}) {
-    const img = p.image ? `<div style="margin:-10px -10px 10px -10px;overflow:hidden;border-radius:8px 8px 0 0">
-      <img src="${p.image}" alt="${p.name || 'Site photo'}" style="width:100%;height:160px;object-fit:cover;display:block"/>
-    </div>` : '';
-
-    const highlights = Array.isArray(p.highlights) && p.highlights.length
-      ? `<ul style="padding-left:18px;margin:6px 0 0 0">${p.highlights.slice(0,3).map(h=>`<li>${h}</li>`).join('')}</ul>`
-      : '';
-
-    const info = [
-      p.type ? `<div><b>Type:</b> ${p.type}</div>` : '',
-      p.city ? `<div><b>City:</b> ${p.city}</div>` : '',
-      p.best_time ? `<div><b>Best time:</b> ${p.best_time}</div>` : '',
-      p.ticket ? `<div><b>Ticket:</b> ${p.ticket}</div>` : '',
-      p.local_tip ? `<div><b>Local tip:</b> ${p.local_tip}</div>` : ''
-    ].filter(Boolean).join('');
-
-    const site = p.website ? `<a href="${p.website}" target="_blank" rel="noopener" style="text-decoration:underline">Official info</a>` : '';
-
-    const CTA = (p.cta_link && p.cta_text)
-      ? `<a href="${p.cta_link}" target="_blank" rel="noopener"
-            style="display:inline-block;margin-top:10px;padding:8px 10px;border-radius:6px;background:#0f766e;color:#fff;text-decoration:none;font-weight:600">
-            ${p.cta_text}</a>`
-      : '';
-
-    return `
-      <div style="width:280px; font: 13px system-ui; line-height:1.35">
-        ${img}
-        <div style="margin:0 -10px 8px -10px;padding:0 10px">
-          <div style="font-weight:700;font-size:15px;margin-top:2px;">${p.name || 'Point of Interest'}</div>
-          ${p.description ? `<div style="margin-top:4px;color:#333">${p.description}</div>` : ''}
-          ${highlights}
-          <div style="margin-top:8px;color:#222">${info}</div>
-          <div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-            ${site}
-            ${CTA}
-          </div>
-        </div>
-      </div>`;
-  }
-
-  // Fixed CTA control on the map (top-right) — set your link!
-  const ctaControl = L.control({position:'topright'});
-  ctaControl.onAdd = function () {
-    const div = L.DomUtil.create('div');
-    div.style.cssText = 'background:#0f766e;color:#fff;padding:10px 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2);font:13px system-ui';
-    div.innerHTML = `
-      <div style="font-weight:700;margin-bottom:4px;">Need a custom tourism map?</div>
-      <a href="mailto:airbanengineers@gmail.com" target="_blank" rel="noopener"
-         style="display:inline-block;background:#14b8a6;color:#073b3a;font-weight:700;padding:6px 10px;border-radius:6px;text-decoration:none">
-         Let’s talk</a>`;
-    return div;
-  };
-  ctaControl.addTo(map);
-
-  // Prepare layer groups by type
-  const groups = {};
-  ALL_TYPES.forEach(t => groups[t] = L.layerGroup());
-
-  // Keep references to all markers for fitBounds
-  const allMarkers = [];
-
-  // Load data (use the persuasive GeoJSON, renamed to tourism_hotspots.geojson)
-  fetch('data/tourism_hotspots.geojson')
-    .then(r => r.json())
-    .then(geo => {
-      geo.features.forEach(f => {
-        const p = f.properties || {};
-        const t = p.type || 'Other';
-        const latlng = L.GeoJSON.coordsToLatLng(f.geometry.coordinates);
-        const m = L.circleMarker(latlng, markerStyle(f))
-          .bindPopup(popupHTML(p));
-        allMarkers.push(m);
-        (groups[t] || (groups[t] = L.layerGroup())).addLayer(m);
-      });
-
-      // Add all groups initially
-      Object.values(groups).forEach(g => g.addTo(map));
-
-      // Fit bounds
-      try {
-        const featureGroup = L.featureGroup(allMarkers);
-        map.fitBounds(featureGroup.getBounds(), { padding: [20,20] });
-      } catch(e) {}
-
-      // Legend (static color keys)
-      const legend = L.control({position:'bottomright'});
-      legend.onAdd = () => {
-        const div = L.DomUtil.create('div');
-        div.style.cssText = 'background:rgba(255,255,255,.95);padding:8px 10px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.15);font:12px system-ui;';
-        div.innerHTML = '<b>Places</b>' + ALL_TYPES.map(t => `
-          <div style="display:flex;align-items:center;gap:6px;margin:2px 0">
-            <span style="width:10px;height:10px;border:1px solid #222;border-radius:50%;display:inline-block;background:${typeColor(t)};"></span> ${t}
-          </div>`).join('');
-        return div;
-      };
-      legend.addTo(map);
-
-      // Filter control (checkboxes) — top-left
-      const filters = L.control({position:'topleft'});
-      filters.onAdd = () => {
-        const div = L.DomUtil.create('div');
-        div.style.cssText = 'background:#fff;padding:10px 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2);font:13px system-ui;min-width:180px';
-        div.innerHTML = `
-          <div style="font-weight:700;margin-bottom:6px;">Filter by type</div>
-          <div id="cc-type-filters">${ALL_TYPES.map(t => `
-            <label style="display:flex;align-items:center;gap:6px;margin:4px 0">
-              <input type="checkbox" data-type="${t}" checked />
-              <span style="display:inline-flex;align-items:center;gap:6px">
-                <span style="width:10px;height:10px;border:1px solid #222;border-radius:50%;display:inline-block;background:${typeColor(t)};"></span> ${t}
-              </span>
-            </label>`).join('')}
-          </div>
-          <div style="display:flex;gap:8px;margin-top:8px;">
-            <button id="cc-all" style="padding:4px 8px;border:1px solid #ccc;border-radius:6px;background:#f8fafc;cursor:pointer">All</button>
-            <button id="cc-none" style="padding:4px 8px;border:1px solid #ccc;border-radius:6px;background:#f8fafc;cursor:pointer">None</button>
-          </div>`;
-        // Stop map drag when interacting with the control
-        L.DomEvent.disableClickPropagation(div);
-        return div;
-      };
-      filters.addTo(map);
-
-      // Wiring: checkbox toggles
-      function updateLayers() {
-        const container = document.getElementById('cc-type-filters');
-        const checks = container.querySelectorAll('input[type="checkbox"]');
-        checks.forEach(cb => {
-          const t = cb.getAttribute('data-type');
-          const layer = groups[t];
-          if (!layer) return;
-          if (cb.checked) {
-            if (!map.hasLayer(layer)) layer.addTo(map);
-          } else {
-            if (map.hasLayer(layer)) map.removeLayer(layer);
-          }
-        });
-      }
-
-      document.getElementById('cc-type-filters')
-        .addEventListener('change', updateLayers);
-
-      document.getElementById('cc-all').addEventListener('click', () => {
-        document.querySelectorAll('#cc-type-filters input[type="checkbox"]').forEach(cb => cb.checked = true);
-        updateLayers();
-      });
-      document.getElementById('cc-none').addEventListener('click', () => {
-        document.querySelectorAll('#cc-type-filters input[type="checkbox"]').forEach(cb => cb.checked = false);
-        updateLayers();
-      });
-    })
-    .catch(err => {
-      console.error('Could not load data/tourism_hotspots.geojson', err);
-      alert('tourism_hotspots.geojson missing or invalid in /data/');
+    // Marker style
+    const markerStyle = f => ({
+      radius: 8, color: '#222', weight: 1,
+      fillColor: typeColor(f.properties?.type), fillOpacity: 0.95
     });
-</script>
+
+    // Persuasive popup
+    function popupHTML(p = {}) {
+      const img = p.image ? `<div style="margin:-10px -10px 10px -10px;overflow:hidden;border-radius:8px 8px 0 0">
+        <img src="${p.image}" alt="${p.name || 'Site photo'}" style="width:100%;height:160px;object-fit:cover;display:block"/>
+      </div>` : '';
+
+      const highlights = Array.isArray(p.highlights) && p.highlights.length
+        ? `<ul style="padding-left:18px;margin:6px 0 0 0">${p.highlights.slice(0,3).map(h=>`<li>${h}</li>`).join('')}</ul>` : '';
+
+      const info = [
+        p.type ? `<div><b>Type:</b> ${p.type}</div>` : '',
+        p.city ? `<div><b>City:</b> ${p.city}</div>` : '',
+        p.best_time ? `<div><b>Best time:</b> ${p.best_time}</div>` : '',
+        p.ticket ? `<div><b>Ticket:</b> ${p.ticket}</div>` : '',
+        p.local_tip ? `<div><b>Local tip:</b> ${p.local_tip}</div>` : ''
+      ].filter(Boolean).join('');
+
+      const site = p.website ? `<a href="${p.website}" target="_blank" rel="noopener" style="text-decoration:underline">Official info</a>` : '';
+
+      const CTA = (p.cta_link && p.cta_text)
+        ? `<a href="${p.cta_link}" target="_blank" rel="noopener"
+              style="display:inline-block;margin-top:10px;padding:8px 10px;border-radius:6px;background:#0f766e;color:#fff;text-decoration:none;font-weight:600">
+              ${p.cta_text}</a>` : '';
+
+      return `
+        <div style="width:280px; font: 13px system-ui; line-height:1.35">
+          ${img}
+          <div style="margin:0 -10px 8px -10px;padding:0 10px">
+            <div style="font-weight:700;font-size:15px;margin-top:2px;">${p.name || 'Point of Interest'}</div>
+            ${p.description ? `<div style="margin-top:4px;color:#333">${p.description}</div>` : ''}
+            ${highlights}
+            <div style="margin-top:8px;color:#222">${info}</div>
+            <div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              ${site}
+              ${CTA}
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // Fixed CTA control (top-right): set your link!
+    const ctaControl = L.control({position:'topright'});
+    ctaControl.onAdd = function () {
+      const div = L.DomUtil.create('div');
+      div.style.cssText = 'background:#0f766e;color:#fff;padding:10px 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2);font:13px system-ui';
+      div.innerHTML = `
+        <div style="font-weight:700;margin-bottom:4px;">Need a custom tourism map?</div>
+        <a href="mailto:airbaengineers@gmail.com" target="_blank" rel="noopener"
+           style="display:inline-block;background:#14b8a6;color:#073b3a;font-weight:700;padding:6px 10px;border-radius:6px;text-decoration:none">
+           Let’s talk</a>`;
+      return div;
+    };
+    ctaControl.addTo(map);
+
+    // Prepare layer groups by type
+    const groups = {};
+    ALL_TYPES.forEach(t => groups[t] = L.layerGroup());
+    const allMarkers = [];
+
+    // Load data
+    fetch('data/tourism_hotspots.geojson')
+      .then(r => r.json())
+      .then(geo => {
+        geo.features.forEach(f => {
+          const p = f.properties || {};
+          const t = p.type || 'Other';
+          const latlng = L.GeoJSON.coordsToLatLng(f.geometry.coordinates);
+          const m = L.circleMarker(latlng, markerStyle(f)).bindPopup(popupHTML(p));
+          allMarkers.push(m);
+          (groups[t] || (groups[t] = L.layerGroup())).addLayer(m);
+        });
+
+        // Add all groups initially
+        Object.values(groups).forEach(g => g.addTo(map));
+
+        // Fit bounds
+        try {
+          const featureGroup = L.featureGroup(allMarkers);
+          map.fitBounds(featureGroup.getBounds(), { padding: [20,20] });
+        } catch(e) {}
+
+        // Legend
+        const legend = L.control({position:'bottomright'});
+        legend.onAdd = () => {
+          const div = L.DomUtil.create('div');
+          div.style.cssText = 'background:rgba(255,255,255,.95);padding:8px 10px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.15);font:12px system-ui;';
+          div.innerHTML = '<b>Places</b>' + ALL_TYPES.map(t => `
+            <div style="display:flex;align-items:center;gap:6px;margin:2px 0">
+              <span style="width:10px;height:10px;border:1px solid #222;border-radius:50%;display:inline-block;background:${typeColor(t)};"></span> ${t}
+            </div>`).join('');
+          return div;
+        };
+        legend.addTo(map);
+
+        // Filter control (checkboxes) — top-left
+        const filters = L.control({position:'topleft'});
+        filters.onAdd = () => {
+          const div = L.DomUtil.create('div');
+          div.style.cssText = 'background:#fff;padding:10px 12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.2);font:13px system-ui;min-width:180px';
+          div.innerHTML = `
+            <div style="font-weight:700;margin-bottom:6px;">Filter by type</div>
+            <div id="cc-type-filters">${ALL_TYPES.map(t => `
+              <label style="display:flex;align-items:center;gap:6px;margin:4px 0">
+                <input type="checkbox" data-type="${t}" checked />
+                <span style="display:inline-flex;align-items:center;gap:6px">
+                  <span style="width:10px;height:10px;border:1px solid #222;border-radius:50%;display:inline-block;background:${typeColor(t)};"></span> ${t}
+                </span>
+              </label>`).join('')}
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button id="cc-all" style="padding:4px 8px;border:1px solid #ccc;border-radius:6px;background:#f8fafc;cursor:pointer">All</button>
+              <button id="cc-none" style="padding:4px 8px;border:1px solid #ccc;border-radius:6px;background:#f8fafc;cursor:pointer">None</button>
+            </div>`;
+          L.DomEvent.disableClickPropagation(div);
+          return div;
+        };
+        filters.addTo(map);
+
+        // Wiring: checkbox toggles
+        function updateLayers() {
+          const container = document.getElementById('cc-type-filters');
+          const checks = container.querySelectorAll('input[type="checkbox"]');
+          checks.forEach(cb => {
+            const t = cb.getAttribute('data-type');
+            const layer = groups[t];
+            if (!layer) return;
+            if (cb.checked) {
+              if (!map.hasLayer(layer)) layer.addTo(map);
+            } else {
+              if (map.hasLayer(layer)) map.removeLayer(layer);
+            }
+          });
+        }
+        document.getElementById('cc-type-filters').addEventListener('change', updateLayers);
+        document.getElementById('cc-all').addEventListener('click', () => {
+          document.querySelectorAll('#cc-type-filters input[type="checkbox"]').forEach(cb => cb.checked = true);
+          updateLayers();
+        });
+        document.getElementById('cc-none').addEventListener('click', () => {
+          document.querySelectorAll('#cc-type-filters input[type="checkbox"]').forEach(cb => cb.checked = false);
+          updateLayers();
+        });
+      })
+      .catch(err => {
+        console.error('Could not load data/tourism_hotspots.geojson', err);
+        alert('tourism_hotspots.geojson missing or invalid in /data/');
+      });
+  </script>
 </body>
 </html>
